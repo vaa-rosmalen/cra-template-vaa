@@ -1,0 +1,22 @@
+version: "3.7"
+
+networks:
+  rascloud-traefik:
+    name: vaa-traefik
+    external: true
+
+services:
+  frontend:
+    image: frontend
+    container_name: frontend-production
+    networks:
+      - vaa-traefik
+    labels:
+      traefik.backend: "frontend-prod"
+      traefik.port: "80"
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:localhost
+volumes:
+  npm-cache:
+    external: false
+  node_modules:

@@ -1,0 +1,18 @@
+version: "3.7"
+
+networks:
+  vaa-traefik:
+    name: vaa-traefik
+    external: true
+
+services:
+  frontend:
+    image: frontend-dev
+    container_name: frontend-dev
+    networks:
+      - vaa-traefik
+    labels:
+      traefik.backend: "frontend"
+      traefik.port: "3000"
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:localhost

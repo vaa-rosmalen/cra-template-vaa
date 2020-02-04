@@ -1,0 +1,21 @@
+FROM node:13-stretch-slim as builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+ENV NODE_ENV=production
+ENV GENERATE_SOURCEMAP=true
+RUN npm install
+
+COPY src src
+COPY public public
+COPY nginx nginx
+COPY config-overrides.js tsconfig.json ./
+
+RUN npm run build
+
+FROM nginx:alpine
+RUN rm -rf /etc/nginx/conf.d
+COPY nginx /etc/nginx
+COPY --from=builder /app/build /usr/share/nginx/html
+CMD nginx -g "daemon off;"
