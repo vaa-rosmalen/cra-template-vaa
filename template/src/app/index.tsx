@@ -1,12 +1,15 @@
 import React, { Suspense } from "react";
 import "./styles.scss";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { far } from "@fortawesome/free-regular-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Home } from "pages/home";
-import { Users } from "pages/users";
+import { Home, Users } from "pages";
 import { Layout } from "antd";
-import { Header } from "components/header";
+import { Header } from "components";
 
 const { Content } = Layout;
+library.add(far);
 
 export const App = () => {
   return (

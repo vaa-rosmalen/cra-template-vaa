@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Layout, Menu, Input, Icon } from "antd";
-import SubMenu from "antd/lib/menu/SubMenu";
 import "./styles.scss";
 import { Link, useLocation } from "react-router-dom";
 
 const { Header: AntdHeader } = Layout;
+const { SubMenu } = Menu;
 
 export const Header = () => {
   const [current, setCurrent] = useState();
