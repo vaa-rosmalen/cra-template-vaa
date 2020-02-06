@@ -1,7 +1,7 @@
 version: "3.7"
 
 networks:
-  rascloud-traefik:
+  vaa-traefik:
     name: vaa-traefik
     external: true
 

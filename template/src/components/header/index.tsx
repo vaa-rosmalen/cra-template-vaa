@@ -26,7 +26,7 @@ export const Header = () => {
         paddingLeft: "2rem",
         paddingRight: "2rem"
       }}
-      className="rascloud-header"
+      className="vaa-header"
     >
       <Link to="/" className="header-title">
         Home
