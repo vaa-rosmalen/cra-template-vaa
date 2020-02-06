@@ -4,6 +4,10 @@ This is the VAA TypeScript template for [Create React App](https://github.com/fa
 
 To use this template, add `--template vaa` when creating a new app.
 
+## DO NOT FORGET !!
+create-react-app is no longer a global package. To ensure that npx or yarn always uses the latest create-react-app version, run:
+`npm uninstall -g create-react-app`
+
 For example:
 
 ```sh
