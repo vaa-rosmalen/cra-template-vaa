@@ -2,6 +2,13 @@
 
 This is the VAA TypeScript template for [Create React App](https://github.com/facebook/create-react-app).
 
+## Notice
+
+create-react-app is no longer a global package. To ensure that npx or yarn always uses the latest create-react-app version, run:
+`npm uninstall -g create-react-app`
+
+## Usage
+
 To use this template, add `--template vaa` when creating a new app.
 
 For example:
@@ -13,11 +20,6 @@ npx create-react-app my-app --template vaa
 
 yarn create react-app my-app --template vaa
 ```
-
-## DO NOT FORGET !!
-
-create-react-app is no longer a global package. To ensure that npx or yarn always uses the latest create-react-app version, run:
-`npm uninstall -g create-react-app`
 
 For more information, please refer to:
 

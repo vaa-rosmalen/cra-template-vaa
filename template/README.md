@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Notice
+(07-02-2020) There is an issue in editting the translations while the development server is running. See: [GitHub issue](https://github.com/gilbsgilbs/babel-plugin-i18next-extract/issues/78).
+Workarround: Stop development server, then make your changes to the tranlation files and finally start the development server.
+
 ## Available Scripts
 
 In the project directory, you can run:
