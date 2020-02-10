@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Layout, Menu, Input, Icon } from "antd";
+import { Layout, Menu, Input } from "antd";
 import "./styles.scss";
 import { Link, useLocation } from "react-router-dom";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const { Header: AntdHeader } = Layout;
 const { SubMenu } = Menu;
@@ -32,7 +35,7 @@ export const Header = () => {
         Home
       </Link>
       <Input
-        prefix={<Icon type="search" />}
+        prefix={<FontAwesomeIcon icon={faSearch} />}
         placeholder="Zoeken in applicatie"
       />
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
