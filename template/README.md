@@ -1,6 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using the [template provided by VAA](https://github.com/vaa-rosmalen/cra-template-vaa).
 
 ## Notice
+
 (07-02-2020) There is an issue in editting the translations while the development server is running. See: [GitHub issue](https://github.com/gilbsgilbs/babel-plugin-i18next-extract/issues/78).
 Workarround: Stop development server, then make your changes to the tranlation files and finally start the development server.
 
@@ -46,3 +47,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+[Ant Design components](https://ant.design/components/button/) - For components you can immediately use. This project is set up with Ant Design preconfigured.
