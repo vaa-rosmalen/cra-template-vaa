@@ -7,7 +7,7 @@ declare global {
 }
 
 export const KEYCLOAK: Keycloak.KeycloakConfig = {
-  realm: "hb",
+  realm: "master",
   url: window.AUTH_URL,
   clientId: "frontend"
 };

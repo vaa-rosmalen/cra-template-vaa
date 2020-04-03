@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu, Input } from "antd";
+import { Layout, Menu, Input, Button } from "antd";
 import "./styles.scss";
 import { Link, useLocation } from "react-router-dom";
 
@@ -10,8 +10,10 @@ const { Header: AntdHeader } = Layout;
 const { SubMenu } = Menu;
 
 export const Header = () => {
-  const [current, setCurrent] = useState();
+  const [current, setCurrent] = useState<string>();
   const { pathname } = useLocation();
+
+  const name = "John Doe";
 
   console.log("pathname: ", pathname); // TODO: highlight tab based on pathname
 
@@ -38,14 +40,29 @@ export const Header = () => {
         prefix={<FontAwesomeIcon icon={faSearch} />}
         placeholder="Zoeken in applicatie"
       />
-      <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+      <div className="header-logout">
+        <span className="header-name">{name}</span>
+        <Button
+          onClick={() => {
+            console.error("logout is not implemented yet.");
+          }}
+        >
+          Uitloggen
+        </Button>
+      </div>
+      <Menu
+        onClick={handleClick}
+        selectedKeys={current ? [current] : []}
+        mode="horizontal"
+        className="header-nav"
+      >
         <SubMenu
           title={
             <Link to="/users" className="submenu-title-wrapper">
               Users
             </Link>
           }
-          key="client"
+          key="users"
         >
           <Menu.Item key="setting:1">Option 1</Menu.Item>
           <Menu.Item key="setting:2">Option 2</Menu.Item>

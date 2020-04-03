@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import Keycloak from "keycloak-js";
 import { KEYCLOAK, KEYCLOAK_INIT } from "configs/keycloak";
 
-/**
- * @type {React.Context<{keycloak: Keycloak.KeycloakInstance}>}
- */
-const KeycloakContext = React.createContext<any>(undefined);
+const keycloakInstance = Keycloak(KEYCLOAK);
 
-const keycloakInstance = Keycloak<"native">(KEYCLOAK);
+const KeycloakContext = React.createContext<{
+  keycloak: Keycloak.KeycloakInstance;
+}>({ keycloak: keycloakInstance });
 
 /**
  * @param {Keycloak.KeycloakInstance} kcInstance
  * @param {(_token: string) => void} onToken
  */
 function initializeKeycloak(
-  kcInstance: Keycloak.KeycloakInstance<"native">,
+  kcInstance: Keycloak.KeycloakInstance,
   onToken = _token => {},
   onSuccess = _authenticated => {}
 ) {
@@ -51,8 +50,7 @@ function initializeKeycloak(
 
   return kcInstance
     .init({
-      ...KEYCLOAK_INIT,
-      promiseType: "native"
+      ...KEYCLOAK_INIT
     })
     .then(authenticated => {
       console.log("Keycloak success");
@@ -69,8 +67,16 @@ function initializeKeycloak(
 export const KeycloakProvider = ({ children, onToken, LoadingComponent }) => {
   const [loading, setLoading] = useState(true);
 
+  // const onTokenTmp = token => {
+  //   // @ts-ignore
+  //   const { brand, name } = keycloakInstance.tokenParsed;
+  //   console.log(brand);
+
+  //   onToken(token);
+  // };
+
   useEffect(() => {
-    initializeKeycloak(keycloakInstance, onToken, () => {
+    initializeKeycloak(keycloakInstance, onToken, authenticated => {
       setLoading(false);
     });
   }, []);

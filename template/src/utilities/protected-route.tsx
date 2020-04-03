@@ -12,7 +12,7 @@ export function ProtectedRoute({
   return (
     <Route
       path={path}
-      status={403}
+      // status={403}
       {...rest}
       render={props => {
         if (!isAuthorized || isAuthorized()) {
