@@ -2,7 +2,7 @@ import { DefaultFetcher } from "utilities/default-fetcher";
 
 export const SWR_CONFIG = {
   refreshInterval: 3000,
-  fetcher: DefaultFetcher
+  fetcher: DefaultFetcher,
   suspense: true,
-  errorRetryInterval: 1000
+  errorRetryInterval: 1000,
 };
