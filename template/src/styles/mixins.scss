@@ -1,0 +1,7 @@
+@mixin gradient($from: #000, $to: #444, $deg: 45) {
+  background: linear-gradient($deg + deg, $from, $to);
+}
+
+@mixin transition($dur: 0.2s) {
+  transition: all $dur cubic-bezier(0.26, 0.08, 0.55, 1);
+}
