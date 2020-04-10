@@ -1,22 +1,18 @@
 version: "3.7"
 
 networks:
-  vaa-traefik:
-    name: vaa-traefik
+  traefik:
+    name: traefik
     external: true
 
 services:
   frontend:
-    image: frontend
-    container_name: frontend-production
+    image: ${REGISTRY}/${IMAGE_NAME}:$TAG
+    container_name: gmp-frontend-production
     networks:
-      - vaa-traefik
+      - traefik
     labels:
-      traefik.backend: "frontend-prod"
-      traefik.port: "80"
-      traefik.enable: "true"
-      traefik.frontend.rule: Host:localhost
-volumes:
-  npm-cache:
-    external: false
-  node_modules:
+      traefik.http.routers.frontend.rule: Host(`${WEBSITE_HOST}`) && PathPrefix(`${TRAEFIK_PATH}`)
+    environment:
+      - AUTH_URL
+      - API_URL

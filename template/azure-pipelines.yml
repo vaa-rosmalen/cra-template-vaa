@@ -1,0 +1,71 @@
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - master
+
+variables:
+  TAG: "$(Build.BuildId)"
+  IMAGE_NAME: "$(Build.Repository.Name)"
+
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build job
+        pool: "AzureDevOps"
+        steps:
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "GitLab"
+              dockerComposeFile: "docker-compose.prod.yml"
+              additionalDockerComposeFiles: "docker-compose.override.prod.yml"
+              action: "Build services"
+              includeLatestTag: true
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'GitLab'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              additionalDockerComposeFiles: 'docker-compose.override.prod.yml'
+              action: 'Push services'
+              includeLatestTag: true
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: 'docker-compose.prod.yml'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
+  # - stage: Deploy
+  #   displayName: Deploy stage
+  #   dependsOn: Build
+  #   jobs:
+  #     - deployment: Deploy
+  #       displayName: Deploy job
+  #       pool: "AzureDevOps"
+  #       environment: "frontend-acc"
+  #       strategy:
+  #         runOnce:
+  #           deploy:
+  #             steps:
+  #               - script: echo my first deployment
+  #               - task: DownloadPipelineArtifact@1
+  #                 inputs:
+  #                   ArtifactName: 'drop'
+  #                   buildType: 'current'
+  #                   targetPath: '$(System.ArtifactsDirectory)'
+  #               - task: DockerCompose@0
+  #                 inputs:
+  #                   containerregistrytype: 'Container Registry'
+  #                   dockerRegistryEndpoint: 'GitLab'
+  #                   dockerComposeFile: 'docker-compose.prod.yml'
+  #                   action: 'Run a Docker Compose command'
+  #                   dockerComposeCommand: 'up'
+        
