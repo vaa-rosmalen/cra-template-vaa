@@ -19,30 +19,30 @@ stages:
         steps:
           - task: DockerCompose@0
             inputs:
-              containerregistrytype: "Container Registry"
-              dockerRegistryEndpoint: "GitLab"
+              # containerregistrytype: "Container Registry"
+              # dockerRegistryEndpoint: "GitLab"
               dockerComposeFile: "docker-compose.prod.yml"
               additionalDockerComposeFiles: "docker-compose.override.prod.yml"
               action: "Build services"
               includeLatestTag: true
           - task: DockerCompose@0
             inputs:
-              containerregistrytype: 'Container Registry'
-              dockerRegistryEndpoint: 'GitLab'
-              dockerComposeFile: 'docker-compose.prod.yml'
-              additionalDockerComposeFiles: 'docker-compose.override.prod.yml'
-              action: 'Push services'
+              # containerregistrytype: 'Container Registry'
+              # dockerRegistryEndpoint: 'GitLab'
+              dockerComposeFile: "docker-compose.prod.yml"
+              additionalDockerComposeFiles: "docker-compose.override.prod.yml"
+              action: "Push services"
               includeLatestTag: true
           - task: CopyFiles@2
             inputs:
-              SourceFolder: '$(Build.SourcesDirectory)'
-              Contents: 'docker-compose.prod.yml'
-              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+              SourceFolder: "$(Build.SourcesDirectory)"
+              Contents: "docker-compose.prod.yml"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)"
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-              ArtifactName: 'drop'
-              publishLocation: 'Container'
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "drop"
+              publishLocation: "Container"
   # - stage: Deploy
   #   displayName: Deploy stage
   #   dependsOn: Build
@@ -68,4 +68,3 @@ stages:
   #                   dockerComposeFile: 'docker-compose.prod.yml'
   #                   action: 'Run a Docker Compose command'
   #                   dockerComposeCommand: 'up'
-        
