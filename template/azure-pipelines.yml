@@ -25,14 +25,14 @@ stages:
               additionalDockerComposeFiles: "docker-compose.override.prod.yml"
               action: "Build services"
               includeLatestTag: true
-          - task: DockerCompose@0
-            inputs:
-              # containerregistrytype: 'Container Registry'
-              # dockerRegistryEndpoint: 'GitLab'
-              dockerComposeFile: "docker-compose.prod.yml"
-              additionalDockerComposeFiles: "docker-compose.override.prod.yml"
-              action: "Push services"
-              includeLatestTag: true
+          # - task: DockerCompose@0
+          #   inputs:
+          #     containerregistrytype: 'Container Registry'
+          #     dockerRegistryEndpoint: 'GitLab'
+          #     dockerComposeFile: "docker-compose.prod.yml"
+          #     additionalDockerComposeFiles: "docker-compose.override.prod.yml"
+          #     action: "Push services"
+          #     includeLatestTag: true
           - task: CopyFiles@2
             inputs:
               SourceFolder: "$(Build.SourcesDirectory)"
