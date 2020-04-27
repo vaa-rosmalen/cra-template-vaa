@@ -10,7 +10,7 @@ RUN npm install
 COPY src src
 COPY public public
 COPY nginx nginx
-COPY config-overrides.js tsconfig.json ./
+COPY config-overrides.js tsconfig.json env2js.sh ./
 
 RUN npm run build
 
@@ -18,4 +18,6 @@ FROM nginx:alpine
 RUN rm -rf /etc/nginx/conf.d
 COPY nginx /etc/nginx
 COPY --from=builder /app/build /usr/share/nginx/html
-CMD nginx -g "daemon off;"
+COPY --from=builder /app/env2js.sh ./
+RUN chmod +x /env2js.sh
+CMD /env2js.sh > /usr/share/nginx/html/config.js && nginx -g "daemon off;"

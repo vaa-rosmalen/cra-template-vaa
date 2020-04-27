@@ -31,7 +31,8 @@
     "react-i18next": "^11.3.4",
     "react-router-dom": "^5.1.2",
     "swr": "^0.2.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "vaa-react-tools": "^0.2.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
