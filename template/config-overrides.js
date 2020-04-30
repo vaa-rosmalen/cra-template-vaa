@@ -2,15 +2,19 @@ const {
   override,
   fixBabelImports,
   addLessLoader,
-  addBabelPlugin
+  addBabelPlugin,
 } = require("customize-cra");
 const { CONFIG } = require("./src/configs/config.js");
 
 const overrideList = [
+  babelInclude([
+    path.resolve("src"), // make sure you link your own source
+    path.resolve("node_modules/vaa-react-tools"), // we need to do this for fixBabelImports
+  ]),
   fixBabelImports("import", {
     libraryName: "antd",
     libraryDirectory: "es",
-    style: true
+    style: true,
   }),
   addLessLoader({
     javascriptEnabled: true,
@@ -19,9 +23,9 @@ const overrideList = [
       "@font-family": "Rubik, sans-serif",
       "@font-size-base": "16px",
       "@text-color": CONFIG.textColor,
-      "@border-radius-base": "5px"
-    }
-  })
+      "@border-radius-base": "5px",
+    },
+  }),
 ];
 
 if (process.env.NODE_ENV !== "production") {
@@ -30,8 +34,8 @@ if (process.env.NODE_ENV !== "production") {
       "i18next-extract",
       {
         locales: ["nl", "en"],
-        outputPath: "public/locales/{{locale}}/{{ns}}.json"
-      }
+        outputPath: "public/locales/{{locale}}/{{ns}}.json",
+      },
     ])
   );
 }
