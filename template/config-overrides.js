@@ -3,8 +3,10 @@ const {
   fixBabelImports,
   addLessLoader,
   addBabelPlugin,
+  babelInclude,
 } = require("customize-cra");
 const { CONFIG } = require("./src/configs/config.js");
+const path = require("path");
 
 const overrideList = [
   babelInclude([
