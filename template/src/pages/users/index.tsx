@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "vaa-react-tools";
 import { Card } from "antd";
 
-export const Home = () => {
+export const Users = () => {
   return (
     <>
       <Card bordered={false} bodyStyle={{ padding: 0 }}>
