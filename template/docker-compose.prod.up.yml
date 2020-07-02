@@ -1,0 +1,23 @@
+version: "3.7"
+
+networks:
+  traefik:
+    name: traefik
+    external: true
+
+services:
+  frontend:
+    volumes:
+      - /app/node_modules
+      - npm-cache:/root/.npm
+    networks:
+      - traefik
+    labels:
+      traefik.http.routers.frontend.rule: Host(`${WEBSITE_HOST}`) && PathPrefix(`${TRAEFIK_PATH}`)
+    environment:
+      - AUTH_URL
+      - API_URL
+volumes:
+  npm-cache:
+    external: false
+  node_modules:

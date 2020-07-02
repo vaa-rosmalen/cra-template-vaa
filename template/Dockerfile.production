@@ -5,18 +5,19 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 ENV NODE_ENV=production
 ENV GENERATE_SOURCEMAP=true
+ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN npm install
 
 COPY src src
 COPY public public
-COPY nginx nginx
 COPY config-overrides.js tsconfig.json env2js.sh ./
 
 RUN npm run build
+COPY nginx nginx
 
 FROM nginx:alpine
 RUN rm -rf /etc/nginx/conf.d
-COPY nginx /etc/nginx
+COPY --from=builder /app/nginx /etc/nginx
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY --from=builder /app/env2js.sh ./
 RUN chmod +x /env2js.sh

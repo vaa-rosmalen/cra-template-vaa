@@ -1,18 +1,6 @@
 version: "3.7"
 
-networks:
-  traefik:
-    name: traefik
-    external: true
-
 services:
   frontend:
     image: ${REGISTRY}/${IMAGE_NAME}:$TAG
-    container_name: gmp-frontend-production
-    networks:
-      - traefik
-    labels:
-      traefik.http.routers.frontend.rule: Host(`${WEBSITE_HOST}`) && PathPrefix(`${TRAEFIK_PATH}`)
-    environment:
-      - AUTH_URL
-      - API_URL
+    container_name: frontend-production

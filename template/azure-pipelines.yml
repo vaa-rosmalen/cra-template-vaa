@@ -19,24 +19,25 @@ stages:
         steps:
           - task: DockerCompose@0
             inputs:
-              # containerregistrytype: "Container Registry"
-              # dockerRegistryEndpoint: "GitLab"
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "GitLab"
               dockerComposeFile: "docker-compose.prod.yml"
-              additionalDockerComposeFiles: "docker-compose.override.prod.yml"
+              additionalDockerComposeFiles: "docker-compose.prod.build.yml"
               action: "Build services"
               includeLatestTag: true
-          # - task: DockerCompose@0
-          #   inputs:
-          #     containerregistrytype: 'Container Registry'
-          #     dockerRegistryEndpoint: 'GitLab'
-          #     dockerComposeFile: "docker-compose.prod.yml"
-          #     additionalDockerComposeFiles: "docker-compose.override.prod.yml"
-          #     action: "Push services"
-          #     includeLatestTag: true
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "GitLab"
+              dockerComposeFile: "docker-compose.prod.yml"
+              additionalDockerComposeFiles: "docker-compose.prod.build.yml"
+              action: "Push services"
+              includeLatestTag: true
           - task: CopyFiles@2
+            displayName: "Copy Files to: $(Build.ArtifactStagingDirectory)"
             inputs:
               SourceFolder: "$(Build.SourcesDirectory)"
-              Contents: "docker-compose.prod.yml"
+              Contents: "*.yml"
               TargetFolder: "$(Build.ArtifactStagingDirectory)"
           - task: PublishBuildArtifacts@1
             inputs:

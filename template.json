@@ -32,7 +32,8 @@
     "react-router-dom": "^5.1.2",
     "swr": "^0.2.0",
     "typescript": "^3.8.3",
-    "vaa-react-tools": "^0.5.0"
+    "vaa-react-tools": "^0.5.0",
+    "prettier": "2.0.5"
   },
   "scripts": {
     "start": "react-app-rewired start",

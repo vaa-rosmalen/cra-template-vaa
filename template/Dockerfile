@@ -1,4 +1,4 @@
-FROM node:12-buster-slim
+FROM node:13-buster-slim
 WORKDIR /app
 
 # Set a self signed ssl certificate
