@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import './styles.scss';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';

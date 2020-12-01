@@ -1,7 +1,7 @@
-import { createContext } from 'react';
+import React, { createContext, useReducer } from 'react';
 import produce from 'immer';
 
-const ContextStore = createContext();
+const ContextStore = createContext<any>(null);
 
 const initialState = {
   language: 'nl'
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
 };
 
 const ContextStoreProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer<any>(reducer, initialState);
   const value = { state, dispatch };
 
   return (
