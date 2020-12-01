@@ -1,5 +1,4 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route } from 'react-router-dom';
 
 export function ProtectedRoute({
   component: Component,
@@ -14,14 +13,14 @@ export function ProtectedRoute({
       path={path}
       // status={403}
       {...rest}
-      render={props => {
+      render={(props) => {
         if (!isAuthorized || isAuthorized()) {
           return <Component subRoutes={routes} {...props} />;
         }
         return (
           <Redirect
             to={{
-              pathname: redirectPath || "/",
+              pathname: redirectPath || '/',
               state: { from: props.location }
             }}
           />

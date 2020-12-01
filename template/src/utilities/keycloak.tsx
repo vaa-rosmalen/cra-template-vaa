@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Keycloak from "keycloak-js";
-import { KEYCLOAK, KEYCLOAK_INIT } from "configs/keycloak";
+import { useEffect, useState, createContext } from 'react';
+import Keycloak from 'keycloak-js';
+import { KEYCLOAK, KEYCLOAK_INIT } from 'configs/keycloak';
 
 const keycloakInstance = Keycloak(KEYCLOAK);
 
-const KeycloakContext = React.createContext<{
+const KeycloakContext = createContext<{
   keycloak: Keycloak.KeycloakInstance;
 }>({ keycloak: keycloakInstance });
 
@@ -14,37 +14,37 @@ const KeycloakContext = React.createContext<{
  */
 function initializeKeycloak(
   kcInstance: Keycloak.KeycloakInstance,
-  onToken = _token => {},
-  onSuccess = _authenticated => {}
+  onToken = (_token) => {},
+  onSuccess = (_authenticated) => {}
 ) {
   kcInstance.onAuthSuccess = () => {
-    console.log("Keycloak onAuthSuccess");
+    console.log('Keycloak onAuthSuccess');
     onToken(kcInstance.token);
   };
   kcInstance.onAuthRefreshSuccess = () => {
-    console.log("Keycloak onAuthRefreshSuccess");
+    console.log('Keycloak onAuthRefreshSuccess');
     onToken(kcInstance.token);
   };
-  kcInstance.onAuthError = error => {
-    console.error("Keycloak onAuthError:", error);
+  kcInstance.onAuthError = (error) => {
+    console.error('Keycloak onAuthError:', error);
   };
   kcInstance.onAuthRefreshError = () => {
-    console.error("Keycloak onAuthRefreshError");
+    console.error('Keycloak onAuthRefreshError');
   };
 
   kcInstance.onTokenExpired = () => {
-    console.log("Keycloak token expired.");
+    console.log('Keycloak token expired.');
     kcInstance
       .updateToken(5)
-      .then(refreshed => {
+      .then((refreshed) => {
         if (refreshed) {
-          console.log("Token was successfully refreshed");
+          console.log('Token was successfully refreshed');
         } else {
-          console.log("Token is still valid");
+          console.log('Token is still valid');
         }
       })
-      .catch(function() {
-        console.log("Failed to refresh the token, or the session has expired");
+      .catch(function () {
+        console.log('Failed to refresh the token, or the session has expired');
       });
   };
 
@@ -52,12 +52,12 @@ function initializeKeycloak(
     .init({
       ...KEYCLOAK_INIT
     })
-    .then(authenticated => {
-      console.log("Keycloak success");
+    .then((authenticated) => {
+      console.log('Keycloak success');
       onSuccess(authenticated);
     })
     .catch((...args) => {
-      console.error("Keycloak initialization error:", ...args);
+      console.error('Keycloak initialization error:', ...args);
     });
 }
 
@@ -76,7 +76,7 @@ export const KeycloakProvider = ({ children, onToken, LoadingComponent }) => {
   // };
 
   useEffect(() => {
-    initializeKeycloak(keycloakInstance, onToken, authenticated => {
+    initializeKeycloak(keycloakInstance, onToken, (authenticated) => {
       setLoading(false);
     });
   }, []);

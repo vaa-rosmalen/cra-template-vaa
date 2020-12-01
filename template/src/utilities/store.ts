@@ -1,24 +1,24 @@
-import React from "react";
-import produce from "immer";
+import { createContext } from 'react';
+import produce from 'immer';
 
-const ContextStore = React.createContext();
+const ContextStore = createContext();
 
 const initialState = {
-  language: "nl"
+  language: 'nl'
 };
 
 const reducer = (state, action) => {
-  return produce(state, draft => {
+  return produce(state, (draft) => {
     switch (action.type) {
-      case "reset":
+      case 'reset':
         return initialState;
-      case "changeLanguage":
+      case 'changeLanguage':
         draft.language = action.language;
         break;
       default:
         draft[action.group] = action.data;
         // eslint-disable-next-line no-console
-        console.log("No dedicated dispatcher, using default", action.type);
+        console.log('No dedicated dispatcher, using default', action.type);
         break;
     }
   });
