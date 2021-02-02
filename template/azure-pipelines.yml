@@ -5,67 +5,84 @@
 trigger:
   - master
 
+pool: 'AzureDevops'
+
 variables:
-  TAG: "$(Build.BuildId)"
-  IMAGE_NAME: "$(Build.Repository.Name)"
+  TAG: '$(Build.BuildId)'
+  IMAGE_NAME: '$(Build.Repository.Name)'
 
 stages:
   - stage: Build
     displayName: Build stage
     jobs:
-      - job: Build
-        displayName: Build job
-        pool: "AzureDevOps"
+      - job: config
+        displayName: Show Config
+        pool: 'AzureDevops'
         steps:
           - task: DockerCompose@0
             inputs:
-              containerregistrytype: "Container Registry"
-              dockerRegistryEndpoint: "GitLab"
-              dockerComposeFile: "docker-compose.prod.yml"
-              additionalDockerComposeFiles: "docker-compose.prod.build.yml"
-              action: "Build services"
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'GitLab'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              additionalDockerComposeFiles: 'docker-compose.prod.build.yml'
+              action: 'Run a Docker Compose command'
+              dockerComposeCommand: 'config'
+              includeLatestTag: true
+      - job: Build
+        displayName: Build job
+        pool: 'AzureDevops'
+        steps:
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'GitLab'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              additionalDockerComposeFiles: 'docker-compose.prod.build.yml'
+              action: 'Build services'
               includeLatestTag: true
           - task: DockerCompose@0
             inputs:
-              containerregistrytype: "Container Registry"
-              dockerRegistryEndpoint: "GitLab"
-              dockerComposeFile: "docker-compose.prod.yml"
-              additionalDockerComposeFiles: "docker-compose.prod.build.yml"
-              action: "Push services"
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'GitLab'
+              dockerComposeFile: 'docker-compose.prod.yml'
+              additionalDockerComposeFiles: 'docker-compose.prod.build.yml'
+              action: 'Push services'
               includeLatestTag: true
           - task: CopyFiles@2
-            displayName: "Copy Files to: $(Build.ArtifactStagingDirectory)"
+            displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
             inputs:
-              SourceFolder: "$(Build.SourcesDirectory)"
-              Contents: "*.yml"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)"
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: '*.yml'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-              ArtifactName: "drop"
-              publishLocation: "Container"
-  # - stage: Deploy
-  #   displayName: Deploy stage
-  #   dependsOn: Build
-  #   jobs:
-  #     - deployment: Deploy
-  #       displayName: Deploy job
-  #       pool: "AzureDevOps"
-  #       environment: "frontend-acc"
-  #       strategy:
-  #         runOnce:
-  #           deploy:
-  #             steps:
-  #               - script: echo my first deployment
-  #               - task: DownloadPipelineArtifact@1
-  #                 inputs:
-  #                   ArtifactName: 'drop'
-  #                   buildType: 'current'
-  #                   targetPath: '$(System.ArtifactsDirectory)'
-  #               - task: DockerCompose@0
-  #                 inputs:
-  #                   containerregistrytype: 'Container Registry'
-  #                   dockerRegistryEndpoint: 'GitLab'
-  #                   dockerComposeFile: 'docker-compose.prod.yml'
-  #                   action: 'Run a Docker Compose command'
-  #                   dockerComposeCommand: 'up'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
+  - stage: Deploy
+    displayName: Deploy stage
+    dependsOn: Build
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy job
+        pool: 'AzureDevops'
+        environment: 'frontend-acc'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: 'drop'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+                - task: DockerCompose@0
+                  inputs:
+                    containerregistrytype: 'Container Registry'
+                    dockerRegistryEndpoint: 'GitLab'
+                    dockerComposeFile: 'docker-compose.prod.yml'
+                    additionalDockerComposeFiles: './docker-compose.prod.up.yml'
+                    action: 'Run a Docker Compose command'
+                    dockerComposeCommand: 'up -d --force-recreate'
+                    dockerHostEndpoint: 'Vaacloud Docker'

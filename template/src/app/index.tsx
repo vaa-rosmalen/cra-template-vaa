@@ -14,27 +14,25 @@ const { Content } = Layout;
 export const App = () => {
   return (
     <Router>
-      <div>
-        <ConfigProvider locale={nlNL}>
-          <ErrorBoundary>
-            <SWRConfig value={SWR_CONFIG}>
-              <Layout style={{ height: '100%' }}>
-                <Content>
-                  <Suspense fallback={<p>loading</p>}>
-                    {/* A <Switch> looks through its children <Route>s and
+      <ConfigProvider locale={nlNL}>
+        <ErrorBoundary>
+          <SWRConfig value={SWR_CONFIG}>
+            <Layout style={{ height: '100%' }}>
+              <Content>
+                <Suspense fallback={<p>loading</p>}>
+                  {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
-                    <Switch>
-                      <Route exact path="/">
-                        <Home />
-                      </Route>
-                    </Switch>
-                  </Suspense>
-                </Content>
-              </Layout>
-            </SWRConfig>
-          </ErrorBoundary>
-        </ConfigProvider>
-      </div>
+                  <Switch>
+                    <Route exact path="/">
+                      <Home />
+                    </Route>
+                  </Switch>
+                </Suspense>
+              </Content>
+            </Layout>
+          </SWRConfig>
+        </ErrorBoundary>
+      </ConfigProvider>
     </Router>
   );
 };

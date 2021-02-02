@@ -2,6 +2,13 @@ version: '3.7'
 
 services:
   frontend:
+    volumes:
+      - /app/node_modules
+      - npm-cache:/root/.npm
     build:
       context: .
       dockerfile: Dockerfile.production
+volumes:
+  npm-cache:
+    external: false
+  node_modules:

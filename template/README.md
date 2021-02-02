@@ -5,6 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 (07-02-2020) There is an issue in editting the translations while the development server is running. See: [GitHub issue](https://github.com/gilbsgilbs/babel-plugin-i18next-extract/issues/78).
 Workarround: Stop development server, then make your changes to the tranlation files and finally start the development server.
 
+(01-12-2020) You might have to change "jsx": "react-jsx" to "jsx": "react" manually in tsconfig.json if you're having issues.
+
 ## Available Scripts
 
 In the project directory, you can run:
